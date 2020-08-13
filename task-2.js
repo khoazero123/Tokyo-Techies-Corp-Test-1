@@ -24,7 +24,7 @@ function count_groups(friend_pairs) {
     }
     
   }
-  console.log(newArr);
+
   return newArr.length;
 }
 
