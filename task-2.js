@@ -1,6 +1,15 @@
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 function count_groups(friend_pairs) {
-  let [numFriendPair, numElementsOfElment, ...numOfArray] = friend_pairs.split("\n");
+  let [numFriendPair, numElementsOfElment, ...numOfArray] = friend_pairs.trim().split("\n");
+  numFriendPair = parseInt(numFriendPair);
+  if (numFriendPair !== numOfArray.length) {
+    throw new Error(`The length of the friendPairs array is not equal to ${numFriendPair}`);
+  }
   let formatedArr = [];
   for (let i = 0; i < numFriendPair; i++) {
     const [idA, idB] = numOfArray[i].trim().split(' ');
@@ -36,20 +45,16 @@ function count_groups(friend_pairs) {
   newArr = newArr.filter(i => i.length);
   return newArr.length;
 }
-setTimeout(() => { // for debug inspect
-  console.log(count_groups(`2
-  2
-  0 1
-  2 1`));
-  console.log(count_groups(`2
-  2
-  0 0
-  1 1`));
-  console.log(count_groups(`5
-  2
-  0 0
-  1 1
-  6 5
-  1 6
-  9 8`));
-}, 2000);
+
+rl.prompt();
+
+const input = [];
+console.log('Enter the data (Ctrl + C to finish input)');
+rl.on('line', function (cmd) {
+    input.push(cmd);
+});
+
+rl.on('close', function (cmd) {
+    console.log(`Found ${count_groups(input.join('\n'))} groups`);
+    process.exit(0);
+});
